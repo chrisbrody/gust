@@ -29,7 +29,7 @@
         };
 
         function handleCredentialResponse(response) {            
-            window.location.href = `./auth/callback.php?token=${response.credential}`;
+            window.location.href = `./config/callback.php?token=${response.credential}`;
         }
     </script>
     <script src="script.js"></script>

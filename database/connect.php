@@ -1,23 +1,8 @@
 <?php 
-    // Function to load .env variables
-    function loadEnv($file)
-    {
-        if (file_exists($file)) {
-            $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            foreach ($lines as $line) {
-                // Remove comments and trim whitespace
-                $line = trim(preg_replace('/\s*#.*$/', '', $line));
-                if (!empty($line)) {
-                    list($key, $value) = explode('=', $line, 2);
-                    putenv(trim($key) . '=' . trim($value)); // Set the environment variable
-                    $_ENV[trim($key)] = trim($value); // Optional: Set it in the $_ENV array
-                }
-            }
-        }
-    }
+    require_once __DIR__ . '/../config/helpers/EnvLoader.php';
 
     // Load the environment variables
-    loadEnv(__DIR__ . '/../.env');
+    EnvLoader::load(__DIR__ . '/../.env');
 
     // Retrieve environment variables
     $host = getenv('DB_HOST');

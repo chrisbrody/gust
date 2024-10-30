@@ -1,5 +1,5 @@
 <?php
-    include './auth/auth.php'; // Include the authentication functions
+    include './config/auth.php'; // Include the authentication functions
     checkLoginStatus();
 
     // set page title
@@ -11,7 +11,7 @@
     <div class="container">
         <div class="grid">            
             <div id="logout" class="text-right">
-                <a href="./auth/logout.php" id="sign-out-button">Sign Out</a>
+                <a href="./config/logout.php" id="sign-out-button">Sign Out</a>
             </div>
         </div>
         <div class="row">
