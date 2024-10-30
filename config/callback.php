@@ -25,23 +25,35 @@ if (isset($_GET['token'])) {
         $user_name = $_SESSION['user_name'];
         $user_email = $_SESSION['user_email'];
 
-        // Prepare and bind
-        $stmt = $mysqli->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
-        $stmt->bind_param("ss", $user_name, $user_email); // "ss" means two strings
+        // Check if the user already exists
+        $check_stmt = $mysqli->prepare("SELECT id FROM users WHERE email = ?");
+        $check_stmt->bind_param("s", $user_email);
+        $check_stmt->execute();
+        $check_stmt->store_result();
 
-        // Execute the statement
-        if ($stmt->execute()) {
-            // Data successfully inserted
-            // You can set a success message or do other things here if needed
+        if ($check_stmt->num_rows > 0) {
+            // User exists, maybe update their name
+            $update_stmt = $mysqli->prepare("UPDATE users SET name = ? WHERE email = ?");
+            $update_stmt->bind_param("ss", $user_name, $user_email);
+            $update_stmt->execute();
+            $update_stmt->close();
         } else {
-            // Handle error
-            echo "Error: " . $stmt->error;
+            // User does not exist, insert a new record
+            $stmt = $mysqli->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+            $stmt->bind_param("ss", $user_name, $user_email);
+
+            // Execute the statement
+            if (!$stmt->execute()) {
+                // Handle error
+                echo "Error: " . $stmt->error;
+            }
+            $stmt->close();
         }
 
-        // Close the statement
-        $stmt->close();
+        // Close the check statement
+        $check_stmt->close();
 
-        // Redirect to dashbaord.php with user data
+        // Redirect to dashboard.php with user data
         header("Location: ../dashboard.php");
         exit(); // Ensure no further code is executed after the redirect
     } else {
