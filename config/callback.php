@@ -21,7 +21,25 @@ if (isset($_GET['token'])) {
         $_SESSION['user_email'] = $user_data['email'];
         $_SESSION['access_token'] = $token;
 
-        // add data to database
+        // Add data to database
+        $user_name = $_SESSION['user_name'];
+        $user_email = $_SESSION['user_email'];
+
+        // Prepare and bind
+        $stmt = $mysqli->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+        $stmt->bind_param("ss", $user_name, $user_email); // "ss" means two strings
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            // Data successfully inserted
+            // You can set a success message or do other things here if needed
+        } else {
+            // Handle error
+            echo "Error: " . $stmt->error;
+        }
+
+        // Close the statement
+        $stmt->close();
 
         // Redirect to dashbaord.php with user data
         header("Location: ../dashboard.php");
