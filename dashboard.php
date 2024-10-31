@@ -13,7 +13,8 @@ include './header/header.php';
     <div class="container">
         <div class="row">
             <div class="col">
-                <p>Welcome <span id="user-info"></span> to Get Ur Shit Together, where we'll help you take charge of your life with clear, practical steps to reach your goals and build a fulfilling future. This journey will empower you to define what truly matters, assess where you are now, and create a path to the life you envision. Each step is designed to guide you in building lasting habits, securing your finances, and surrounding yourself with a support network that keeps you motivated. </p>
+                <h1><div class="fs-14">Welcome <span id="user-info"></span> to</div> Get Ur Shit Together</h1>
+                <p>You're here to take charge of your life with clear, practical steps to reach your goals and build a fulfilling future. This journey will empower you to define what truly matters, assess where you are now, and create a path to the life you envision. Each step is designed to guide you in building lasting habits, securing your finances, and surrounding yourself with a support network that keeps you motivated. </p>
             </div>
         </div>
 
@@ -21,28 +22,22 @@ include './header/header.php';
             <div class="col">
                 <div class="grid column-3 item-wrap">
                     <div class="item">
-                        <div>icon of step</div>
-                        <div>name of step 1</div>
+                        <div>Vision &amp; Values</div>
                     </div>
                     <div class="item">
-                        <div>icon of step</div>
-                        <div>name of step 2</div>
+                        <div>Current Situation</div>
                     </div>
                     <div class="item">
-                        <div>icon of step</div>
-                        <div>name of step 3</div>
+                        <div>Actionable Goals</div>
                     </div>
                     <div class="item">
-                        <div>icon of step</div>
-                        <div>name of step 4</div>
+                        <div>Financial Plan</div>
                     </div>
                     <div class="item">
-                        <div>icon of step</div>
-                        <div>name of step 5</div>
+                        <div>Daily Routine</div>
                     </div>
                     <div class="item">
-                        <div>icon of step</div>
-                        <div>name of step 6</div>
+                        <div>Support System</div>
                     </div>
                 </div>
             </div>

@@ -37,6 +37,9 @@ ul, ol {
     list-style: none;
 }
 
+/* Fonts */
+.fs-14 { color: lightgray; font-size: 14px; }
+
 /* General container styling */
 .container {
     max-width: 1200px; /* Maximum width for general container */
@@ -66,7 +69,8 @@ ul, ol {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 15px;
+    cursor: pointer;
+    padding: 30px 15px;
     text-align: center;
     transition: transform 0.3s;
 }
@@ -143,9 +147,7 @@ button:hover {
 
 /* Responsive styles */
 @media (max-width: 768px) {
-    .grid {
-        flex-direction: column; /* Stack items on smaller screens */
-    }
+    
 }
 
 @media (max-width: 600px) {
