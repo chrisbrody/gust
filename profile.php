@@ -44,12 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <body>
-    <div class="container">
-        <?php include './menu/user_menu.php'; ?>
-        <div class="row">
-            Update your profile information, <?php echo htmlspecialchars($_SESSION['user_name']); ?>
-        </div>
+    <?php include './menu/user_menu.php'; ?>
 
+    <div class="container">
         <!-- Form to update name, phone number, and birthday -->
         <div class="row">
             <div class="col">
