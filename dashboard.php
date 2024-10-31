@@ -9,14 +9,7 @@ include './header/header.php';
 
 <body>
     <div class="container">
-        <div class="grid">
-            <div id="profile" class="text-right">
-                <a href="./profile.php" id="profile-button">Profile</a>
-            </div>            
-            <div id="logout" class="text-right">
-                <a href="./config/logout.php" id="sign-out-button">Sign Out</a>
-            </div>
-        </div>
+        <?php include './menu/user_menu.php'; ?>
         <div class="row">
             <div class="col">
                 <p>Welcome <span id="user-info"></span> to Get Ur Shit Together, where we'll help you take charge of your life with clear, practical steps to reach your goals and build a fulfilling future. This journey will empower you to define what truly matters, assess where you are now, and create a path to the life you envision. Each step is designed to guide you in building lasting habits, securing your finances, and surrounding yourself with a support network that keeps you motivated. </p>
