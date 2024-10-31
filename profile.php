@@ -1,34 +1,44 @@
 <?php
 include './config/auth.php'; // Include the authentication functions
-checkLoginStatus();
-
-// set page title
-$pageTitle = "Gust - Update Profile";
+checkLoginStatus(); // Confirm user is logged in
+$pageTitle = "Gust - Update Profile"; // Set page title
 include './header/header.php';
+include './database/connect.php'; // Include database connection
 
-// Include database connection
-include './database/connect.php';
+// Initialize variables for phone and birthday
+$phone = '';
+$birthday = '';
+
+// Fetch existing profile information if user is logged in
+$user_id = $_SESSION['user_id'];
+$profile_stmt = $mysqli->prepare("SELECT phone, birthday FROM profiles WHERE user_id = ?");
+$profile_stmt->bind_param("i", $user_id);
+$profile_stmt->execute();
+$profile_stmt->bind_result($phone, $birthday);
+$profile_stmt->fetch();
+$profile_stmt->close();
 
 // Check for form submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_name'])) {
-    $new_name = trim($_POST['new_name']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Update profile info (name, phone number, and birthday)
+    if (isset($_POST['update_profile'])) {
+        $name = trim($_POST['new_name']);
+        $phone = trim($_POST['phone']);
+        $birthday = trim($_POST['birthday']);
+        $user_id = $_SESSION['user_id'];
 
-    // Validate the input
-    if (!empty($new_name)) {
-        // Prepare an update statement
-        $stmt = $mysqli->prepare("UPDATE users SET name = ? WHERE email = ?");
-        $stmt->bind_param("ss", $new_name, $_SESSION['user_email']);
+        // Prepare statement to update or insert profile info
+        $stmt = $mysqli->prepare("INSERT INTO profiles (user_id, phone, birthday, name) VALUES (?, ?, ?, ?) 
+                                  ON DUPLICATE KEY UPDATE phone = ?, birthday = ?, name = ?");
+        $stmt->bind_param("issssss", $user_id, $phone, $birthday, $name, $phone, $birthday, $name);
 
         if ($stmt->execute()) {
-            // Update session variable
-            $_SESSION['user_name'] = $new_name;
-            $success_message = "Name updated successfully!";
+            $_SESSION['user_name'] = $name; // Update session name
+            $success_message_profile = "Profile updated successfully!";
         } else {
-            $error_message = "Error updating name: " . $stmt->error;
+            $error_message_profile = "Error updating profile: " . $stmt->error;
         }
         $stmt->close();
-    } else {
-        $error_message = "Please enter a valid name.";
     }
 }
 ?>
@@ -36,31 +46,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_name'])) {
 <body>
     <div class="container">
         <div class="row">
-            Update your profile information <?php echo ($_SESSION['user_name']); ?>
+            Update your profile information, <?php echo htmlspecialchars($_SESSION['user_name']); ?>
         </div>
-        <!-- Form to change user name -->
+
+        <!-- Form to update name, phone number, and birthday -->
         <div class="row">
             <div class="col">
-                <h3>Change Your Name</h3>
-                <?php if (isset($success_message)): ?>
-                    <div class="alert alert-success"><?php echo $success_message; ?></div>
-                <?php elseif (isset($error_message)): ?>
-                    <div class="alert alert-danger"><?php echo $error_message; ?></div>
-                <?php endif; ?>
+                <h3>Update Profile Information</h3>
+                <?php if (isset($success_message_profile)) echo "<div class='alert alert-success'>$success_message_profile</div>"; ?>
+                <?php if (isset($error_message_profile)) echo "<div class='alert alert-danger'>$error_message_profile</div>"; ?>
                 <form method="post" action="">
                     <div class="form-group">
-                        <label for="new_name">New Name:</label>
-                        <input type="text" id="new_name" name="new_name" required value="<?php echo ($_SESSION['user_name']); ?>">
+                        <label for="new_name">Name:</label>
+                        <input type="text" id="new_name" name="new_name" required value="<?php echo htmlspecialchars($_SESSION['user_name']); ?>">
                     </div>
-                    <button type="submit" name="update_name">Update Name</button>
+                    <div class="form-group">
+                        <label for="phone">Number:</label>
+                        <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="birthday">Birthday:</label>
+                        <input type="date" id="birthday" name="birthday" value="<?php echo htmlspecialchars($birthday); ?>">
+                    </div>
+                    <button type="submit" name="update_profile">Update Profile</button>
                 </form>
             </div>
         </div>
-
     </div>
-
-    <script>
-        
-    </script>
 </body>
 </html>
