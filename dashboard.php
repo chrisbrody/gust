@@ -21,9 +21,9 @@ include './header/header.php';
         <div class="row">
             <div class="col">
                 <div class="grid column-3 item-wrap">
-                    <div class="item">
+                    <a class="item"  href="./step1.php">
                         <div>Vision &amp; Values</div>
-                    </div>
+                    </a>
                     <div class="item">
                         <div>Current Situation</div>
                     </div>
