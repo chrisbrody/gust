@@ -18,7 +18,7 @@
     // Function to check user login status and redirect if not logged in
     function checkLoginStatus() {
         if (!isset($_SESSION['access_token']) || !verifyAccessToken($_SESSION['access_token'])) {
-            header("Location: ../login.php"); // Redirect to login page
+            header("Location: ./../login.php"); // Redirect to login page
             exit(); // Ensure no further code is executed after the redirect
         }
     }
