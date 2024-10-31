@@ -38,7 +38,7 @@ ul, ol {
 }
 
 /* Fonts */
-.fs-14 { color: lightgray; font-size: 14px; }
+.fs-14 { color: lightgray; font-size: 14px; line-height: 5px; }
 
 /* General container styling */
 .container {
@@ -105,7 +105,8 @@ label {
 }
 
 input[type="text"],
-input[type="date"] {
+input[type="date"],
+textarea {
     width: 100%; /* Full width input fields */
     padding: 10px; /* Padding inside input fields */
     border: 1px solid #ccc; /* Light gray border */
