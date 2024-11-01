@@ -9,11 +9,12 @@ include './database/fetch/corevalues_data.php'; // This is where core values are
 
 <body>
     <?php include './menu/user_menu.php'; // Include user menu ?>
+    <?php include './components/Loader.php'; // Include Loading Overlay?>
     <?php include './step1_pagination.php'; // Include the pagination header ?>
 
     <div class="container">
-        <h1><div class="fs-14">Step 1.2</div> Define Your Core Values</h1>
-        <p>Core values are essential principles that guide your actions and decisions. Please define what matters most to you.</p>
+        <h1><div class="fs-14">Step 1.2</div> Identify Core Values</h1>
+        <p>Now, identify the core values that matter most in your life, like family, freedom, or financial independence. These values are your foundation—they influence your decisions and priorities, shaping your future to reflect what you truly believe in.</p>
 
         <?php if ($success_message_core) echo "<div class='alert alert-success'>$success_message_core</div>"; ?>
         <?php if ($error_message_core) echo "<div class='alert alert-danger'>$error_message_core</div>"; ?>
@@ -45,35 +46,8 @@ include './database/fetch/corevalues_data.php'; // This is where core values are
         </form>
     </div>
 
-    <!-- Loading Overlay -->
-    <div id="loading-overlay" style="display: none;">
-        <svg width="50" height="50" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="35" stroke-width="5" stroke="#333" fill="none" stroke-dasharray="164.93361431346415 56.97787143782138">
-                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
-            </circle>
-        </svg>
-    </div>
-
+    <script src="./scripts/components/toggleEdit.js"></script>
     <script>
-        function toggleEdit(fieldId, label) {
-            const displayElement = document.getElementById(fieldId + '-display');
-            const editElement = document.getElementById(fieldId);
-
-            // Toggle visibility based on current state
-            if (displayElement.style.display !== 'none') {
-                displayElement.style.display = 'none';
-                editElement.style.display = 'block';
-                editElement.focus();
-            } else {
-                // Update display text with textarea value or a custom message based on the label
-                const newValue = editElement.value.trim();
-                displayElement.textContent = newValue || `Click here to add ${label}`;
-
-                displayElement.style.display = 'block';
-                editElement.style.display = 'none';
-            }
-        }
-
         // Capture form submission
         document.getElementById('core-values-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form from refreshing the page
@@ -87,7 +61,5 @@ include './database/fetch/corevalues_data.php'; // This is where core values are
             }, 3000);
         });
     </script>
-
-    <script src="script.js"></script>
 </body>
 </html>

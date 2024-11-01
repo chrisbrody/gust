@@ -9,11 +9,12 @@ include './database/fetch/lifevalues_data.php';
 
 <body>
     <?php include './menu/user_menu.php'; // Include user menu ?>
+    <?php include './components/Loader.php'; // Include Loading Overlay?>
     <?php include './step1_pagination.php'; // Include the pagination header ?>
 
     <div class="container">
-        <h1><div class="fs-14">Step 1.1</div> Define Your Life Goals</h1>
-        <p>Reflect on your life goals for the next 5–10 years. Answer the questions below to set your goals.</p>
+        <h1><div class="fs-14">Step 1.1</div> Reflect on Life Goals</h1>
+        <p>Take a moment to think deeply about what you want from life in the next 5–10 years. Visualize your goals across key areas—your career, relationships, financial health, physical and mental wellness, and personal growth. These reflections will guide your journey and help you define what success and happiness truly mean to you.</p>
 
         <?php if ($success_message_vision) echo "<div class='alert alert-success'>$success_message_vision</div>"; ?>
         <?php if ($error_message_vision) echo "<div class='alert alert-danger'>$error_message_vision</div>"; ?>
@@ -47,35 +48,8 @@ include './database/fetch/lifevalues_data.php';
         </form>
     </div>
 
-    <!-- Loading Overlay -->
-    <div id="loading-overlay">
-        <svg width="50" height="50" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="35" stroke-width="5" stroke="#333" fill="none" stroke-dasharray="164.93361431346415 56.97787143782138">
-                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
-            </circle>
-        </svg>
-    </div>
-
+    <script src="./scripts/components/toggleEdit.js"></script>
     <script>
-        function toggleEdit(goalId, label) {
-            const displayElement = document.getElementById(goalId + '-display');
-            const editElement = document.getElementById(goalId);
-
-            // Toggle visibility based on current state
-            if (displayElement.style.display !== 'none') {
-                displayElement.style.display = 'none';
-                editElement.style.display = 'block';
-                editElement.focus();
-            } else {
-                // Update display text with textarea value or a custom message based on the label
-                const newValue = editElement.value.trim();
-                displayElement.textContent = newValue || `Click here to add ${label}`;
-
-                displayElement.style.display = 'block';
-                editElement.style.display = 'none';
-            }
-        }
-
         // Capture form submission
         document.getElementById('vision-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form from refreshing the page
