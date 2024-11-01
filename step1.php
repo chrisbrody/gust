@@ -77,36 +77,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php if ($error_message_vision) echo "<div class='alert alert-danger'>$error_message_vision</div>"; ?>
 
         <form id="vision-form" method="POST" action="">
-            <div class="form-group">
-                <label for="career">Career Goals:</label>
-                <textarea id="career" name="career" placeholder="What are your career aspirations?" required><?php echo htmlspecialchars($career_goals); ?></textarea>
-            </div>
-            <div class="form-group">
-                <label for="relationships">Relationships Goals:</label>
-                <textarea id="relationships" name="relationships" placeholder="What do you want in relationships?" required><?php echo htmlspecialchars($relationship_goals); ?></textarea>
-            </div>
-            <div class="form-group">
-                <label for="finances">Financial Goals:</label>
-                <textarea id="finances" name="finances" placeholder="What are your financial goals?" required><?php echo htmlspecialchars($financial_goals); ?></textarea>
-            </div>
-            <div class="form-group">
-                <label for="health">Health Goals:</label>
-                <textarea id="health" name="health" placeholder="What are your health goals?" required><?php echo htmlspecialchars($health_goals); ?></textarea>
-            </div>
-            <div class="form-group">
-                <label for="personal-growth">Personal Growth Goals:</label>
-                <textarea id="personal-growth" name="personal-growth" placeholder="What do you want to learn or achieve personally?" required><?php echo htmlspecialchars($personal_growth_goals); ?></textarea>
-            </div>
+            <?php
+            $goals = [
+                'career' => ['label' => 'Career Goals', 'value' => $career_goals],
+                'relationships' => ['label' => 'Relationships Goals', 'value' => $relationship_goals],
+                'finances' => ['label' => 'Financial Goals', 'value' => $financial_goals],
+                'health' => ['label' => 'Health Goals', 'value' => $health_goals],
+                'personal-growth' => ['label' => 'Personal Growth Goals', 'value' => $personal_growth_goals]
+            ];
+
+            foreach ($goals as $id => $goalData) {
+                $label = $goalData['label'];
+                $value = $goalData['value'];
+            ?>
+                <div class="form-group">
+                    <label for="<?php echo $id; ?>"><?php echo $label; ?>:</label>
+                    <div id="<?php echo $id; ?>-display" class="goal-display" onclick="toggleEdit('<?php echo $id; ?>', '<?php echo $label; ?>')">
+                        <?php echo htmlspecialchars($value) ?: "Click to add $label"; ?>
+                    </div>
+                    <textarea id="<?php echo $id; ?>" name="<?php echo $id; ?>" class="goal-edit" style="display: none;"
+                            placeholder="Enter your <?php echo strtolower($label); ?>" onblur="toggleEdit('<?php echo $id; ?>', '<?php echo $label; ?>')"><?php echo htmlspecialchars($value); ?></textarea>
+                </div>
+            <?php } ?>
 
             <input type="hidden" name="valid_submission" value="1">
             <button type="submit">Save Your Vision</button>
         </form>
     </div>
 
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <svg width="50" height="50" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="35" stroke-width="5" stroke="#333" fill="none" stroke-dasharray="164.93361431346415 56.97787143782138">
+                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+            </circle>
+        </svg>
+    </div>
+
     <script>
+        function toggleEdit(goalId, label) {
+            const displayElement = document.getElementById(goalId + '-display');
+            const editElement = document.getElementById(goalId);
+
+            // Toggle visibility based on current state
+            if (displayElement.style.display !== 'none') {
+                displayElement.style.display = 'none';
+                editElement.style.display = 'block';
+                editElement.focus();
+            } else {
+                // Update display text with textarea value or a custom message based on the label
+                const newValue = editElement.value.trim();
+                displayElement.textContent = newValue || `Click here to add ${label}`;
+
+                displayElement.style.display = 'block';
+                editElement.style.display = 'none';
+            }
+        }
+
         // Capture form submission
         document.getElementById('vision-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form from refreshing the page
+
+            // Show the loading overlay
+            document.getElementById('loading-overlay').style.display = 'flex';
 
             // Capture user input from the form fields
             const careerGoal = document.getElementById('career').value.trim();
@@ -115,11 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const healthGoal = document.getElementById('health').value.trim();
             const personalGrowthGoal = document.getElementById('personal-growth').value.trim();
 
-            // Check for empty fields
-            if (!careerGoal || !relationshipGoal || !financialGoal || !healthGoal || !personalGrowthGoal) {
-                alert('Please fill in all the fields before submitting.'); // Alert the user
-                return; // Stop further execution
-            }
+            // // Check for empty fields
+            // if (!careerGoal || !relationshipGoal || !financialGoal || !healthGoal || !personalGrowthGoal) {
+            //     document.getElementById('loading-overlay').style.display = 'none';
+            //     alert('Please fill in all the fields before submitting.'); // Alert the user
+            //     return; // Stop further execution
+            // }
             
             setTimeout(() => {
                 // Now submit the form if everything is valid
