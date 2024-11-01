@@ -5,6 +5,11 @@ checkLoginStatus();
 // set page title
 $pageTitle = "Gust - Dashboard";
 include './header/header.php';
+include './database/fetch/total_count_step1.php';
+
+$vision_percentage = ($total / 9) * 100;
+$vision_percentage = min(max($vision_percentage, 0), 100); // Ensure percentage is within 0-100 range
+$vision_percentage = round($vision_percentage); // Round to the nearest whole number
 ?>
 
 <body>
@@ -21,8 +26,13 @@ include './header/header.php';
         <div class="row">
             <div class="col">
                 <div class="grid column-3 item-wrap">
-                    <a class="item"  href="./step1.php">
+                    <a class="item" href="./step1-1.php">
                         <div>Vision &amp; Values</div>
+                        <br>
+                        <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; overflow: hidden;">
+                            <div style="width: <?= $vision_percentage ?>%; background-color: #4caf50; height: 10px;"></div>
+                        </div>
+                        <div style="text-align: center; font-weight: bold;"><?= number_format($vision_percentage) ?>%</div>
                     </a>
                     <div class="item">
                         <div>Current Situation</div>
