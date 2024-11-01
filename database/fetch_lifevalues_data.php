@@ -12,7 +12,7 @@
     // Fetch existing vision information if user is logged in
     $user_id = $_SESSION['user_id'];
     $vision_stmt = $mysqli->prepare("SELECT career_goals, relationship_goals, financial_goals, health_goals, personal_growth_goals 
-                                    FROM live_values WHERE user_id = ?");
+                                    FROM life_values WHERE user_id = ?");
     $vision_stmt->bind_param("i", $user_id);
     $vision_stmt->execute();
     $vision_stmt->bind_result($career_goals, $relationship_goals, $financial_goals, $health_goals, $personal_growth_goals);
@@ -35,7 +35,7 @@
             $user_id = $_SESSION['user_id'];
 
             // Prepare statement to update or insert vision info
-            $stmt = $mysqli->prepare("INSERT INTO live_values (user_id, career_goals, relationship_goals, financial_goals, health_goals, personal_growth_goals) 
+            $stmt = $mysqli->prepare("INSERT INTO life_values (user_id, career_goals, relationship_goals, financial_goals, health_goals, personal_growth_goals) 
                                     VALUES (?, ?, ?, ?, ?, ?) 
                                     ON DUPLICATE KEY UPDATE 
                                     career_goals = ?, relationship_goals = ?, financial_goals = ?, health_goals = ?, personal_growth_goals = ?");
