@@ -1,10 +1,10 @@
 <?php
 include './config/auth.php'; // Include the authentication functions
 checkLoginStatus(); // Confirm user is logged in
-$pageTitle = "Gust - Update Vision"; // Set page title
-$currentStep = 1; // Set the current pagination
+$pageTitle = "Gust - Update Core Values"; // Set page title
+$currentStep = 2; // Set the current pagination
 include './header/header.php';
-include './database/fetch_lifevalues_data.php';
+include './database/fetch_corevalues_data.php'; // This is where core values are fetched
 ?>
 
 <body>
@@ -12,43 +12,41 @@ include './database/fetch_lifevalues_data.php';
     <?php include './step1_pagination.php'; // Include the pagination header ?>
 
     <div class="container">
-        <h1><div class="fs-14">Step 1.1</div> Define Your Life Goals</h1>
-        <p>Reflect on your life goals for the next 5–10 years. Answer the questions below to set your goals.</p>
+        <h1><div class="fs-14">Step 1.2</div> Define Your Core Values</h1>
+        <p>Core values are essential principles that guide your actions and decisions. Please define what matters most to you.</p>
 
-        <?php if ($success_message_vision) echo "<div class='alert alert-success'>$success_message_vision</div>"; ?>
-        <?php if ($error_message_vision) echo "<div class='alert alert-danger'>$error_message_vision</div>"; ?>
+        <?php if ($success_message_core) echo "<div class='alert alert-success'>$success_message_core</div>"; ?>
+        <?php if ($error_message_core) echo "<div class='alert alert-danger'>$error_message_core</div>"; ?>
 
-        <form id="vision-form" method="POST" action="">
+        <form id="core-values-form" method="POST" action="">
             <?php
-            $goals = [
-                'career' => ['label' => 'Career Goals', 'value' => $career_goals],
-                'relationships' => ['label' => 'Relationships Goals', 'value' => $relationship_goals],
-                'finances' => ['label' => 'Financial Goals', 'value' => $financial_goals],
-                'health' => ['label' => 'Health Goals', 'value' => $health_goals],
-                'personal-growth' => ['label' => 'Personal Growth Goals', 'value' => $personal_growth_goals]
+            $coreValues = [
+                'family' => ['label' => 'Family Core Values', 'value' => $family],
+                'freedom' => ['label' => 'Freedom Core Values', 'value' => $freedom],
+                'financial_independence' => ['label' => 'Financial Independence Core Values', 'value' => $financial_independence]
             ];
 
-            foreach ($goals as $id => $goalData) {
-                $label = $goalData['label'];
-                $value = $goalData['value'];
+            foreach ($coreValues as $id => $coreValueData) {
+                $label = $coreValueData['label'];
+                $value = $coreValueData['value'];
             ?>
                 <div class="form-group">
                     <label for="<?php echo $id; ?>"><?php echo $label; ?>:</label>
-                    <div id="<?php echo $id; ?>-display" class="goal-display" onclick="toggleEdit('<?php echo $id; ?>', '<?php echo $label; ?>')">
+                    <div id="<?php echo $id; ?>-display" class="core-value-display" onclick="toggleEdit('<?php echo $id; ?>', '<?php echo $label; ?>')">
                         <?php echo htmlspecialchars($value) ?: "Click to add $label"; ?>
                     </div>
-                    <textarea id="<?php echo $id; ?>" name="<?php echo $id; ?>" class="goal-edit" style="display: none;"
-                            placeholder="Enter your <?php echo strtolower($label); ?>" onblur="toggleEdit('<?php echo $id; ?>', '<?php echo $label; ?>')"><?php echo htmlspecialchars($value); ?></textarea>
+                    <textarea id="<?php echo $id; ?>" name="<?php echo $id; ?>" class="core-value-edit" style="display: none;" 
+                              placeholder="Enter your <?php echo strtolower($label); ?>" onblur="toggleEdit('<?php echo $id; ?>', '<?php echo $label; ?>')"><?php echo htmlspecialchars($value); ?></textarea>
                 </div>
             <?php } ?>
 
             <input type="hidden" name="valid_submission" value="1">
-            <button type="submit">Save Your Life Goals</button>
+            <button type="submit">Save Your Core Values</button>
         </form>
     </div>
 
     <!-- Loading Overlay -->
-    <div id="loading-overlay">
+    <div id="loading-overlay" style="display: none;">
         <svg width="50" height="50" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="35" stroke-width="5" stroke="#333" fill="none" stroke-dasharray="164.93361431346415 56.97787143782138">
                 <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
@@ -57,9 +55,9 @@ include './database/fetch_lifevalues_data.php';
     </div>
 
     <script>
-        function toggleEdit(goalId, label) {
-            const displayElement = document.getElementById(goalId + '-display');
-            const editElement = document.getElementById(goalId);
+        function toggleEdit(fieldId, label) {
+            const displayElement = document.getElementById(fieldId + '-display');
+            const editElement = document.getElementById(fieldId);
 
             // Toggle visibility based on current state
             if (displayElement.style.display !== 'none') {
@@ -77,15 +75,15 @@ include './database/fetch_lifevalues_data.php';
         }
 
         // Capture form submission
-        document.getElementById('vision-form').addEventListener('submit', function(event) {
+        document.getElementById('core-values-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form from refreshing the page
 
             // Show the loading overlay
             document.getElementById('loading-overlay').style.display = 'flex';
-            
+
+            // Now submit the form if everything is valid after a short delay
             setTimeout(() => {
-                // Now submit the form if everything is valid
-                document.getElementById('vision-form').submit();
+                this.submit();
             }, 3000);
         });
     </script>
