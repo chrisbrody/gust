@@ -4,7 +4,7 @@ checkLoginStatus(); // Confirm user is logged in
 $pageTitle = "Gust - Update Core Values"; // Set page title
 $currentStep = 2; // Set the current pagination
 include './header/header.php';
-include './database/fetch_corevalues_data.php'; // This is where core values are fetched
+include './database/fetch/corevalues_data.php'; // This is where core values are fetched
 ?>
 
 <body>

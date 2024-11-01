@@ -4,7 +4,7 @@ checkLoginStatus(); // Confirm user is logged in
 $pageTitle = "Gust - Update Vision"; // Set page title
 $currentStep = 1; // Set the current pagination
 include './header/header.php';
-include './database/fetch_lifevalues_data.php';
+include './database/fetch/lifevalues_data.php';
 ?>
 
 <body>
