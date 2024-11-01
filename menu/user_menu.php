@@ -44,7 +44,7 @@
 </style>
 
 <div class="nav grid">
-    <?php if ($current_page !== 'profile.php') : ?>
+    <?php if ($current_page !== 'profile.php' && strpos($current_page, 'step') === false) : ?>
         <div id="profile" class="text-right">
             <a href="./profile.php" id="profile-button">Profile</a>
         </div>  
