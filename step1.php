@@ -147,13 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const financialGoal = document.getElementById('finances').value.trim();
             const healthGoal = document.getElementById('health').value.trim();
             const personalGrowthGoal = document.getElementById('personal-growth').value.trim();
-
-            // // Check for empty fields
-            // if (!careerGoal || !relationshipGoal || !financialGoal || !healthGoal || !personalGrowthGoal) {
-            //     document.getElementById('loading-overlay').style.display = 'none';
-            //     alert('Please fill in all the fields before submitting.'); // Alert the user
-            //     return; // Stop further execution
-            // }
             
             setTimeout(() => {
                 // Now submit the form if everything is valid
